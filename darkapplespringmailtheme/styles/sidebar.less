@@ -1,5 +1,18 @@
 // Account sidebar — grouped list like macOS Settings / Mail
 
+// Tint label + masked icon for a sidebar row tier.
+.sidebar-item-tier(@color) {
+  color: @color;
+
+  .name {
+    color: @color;
+  }
+
+  .content-mask {
+    background-color: @color !important;
+  }
+}
+
 .account-sidebar {
   background: @panel-background-color;
   border-right: 0.5px solid @apple-separator-opaque;
@@ -13,44 +26,65 @@
   }
 }
 
-.outline-view {
-  .item {
-    color: @apple-label-primary;
-    transition: color 0.12s ease;
+// Shared sidebar row styles (folders: Inbox, Sent, account headers, etc.)
+.account-sidebar .outline-view .item,
+.account-sidebar .account-sidebar-sections .item,
+.account-sidebar .item-container .item {
+  .sidebar-item-tier(@sidebar-item-color-parent);
+  transition: color 0.12s ease;
 
-    // No hover background — selection is text color only.
+  .name {
+    transition: color 0.12s ease;
+  }
+
+  .content-mask {
+    transition: background-color 0.12s ease;
+  }
+
+  // No hover background — brighten text only.
+  &:hover:not(.selected):not(.active) {
+    background: transparent !important;
+    background-color: transparent !important;
+    .sidebar-item-tier(@sidebar-item-color-hover);
+  }
+
+  // Selected item: no background fill — just blue text + a blue-tinted icon.
+  &.selected,
+  &.active {
+    background: transparent !important;
+    font-weight: @font-weight-medium;
+    .sidebar-item-tier(@sidebar-item-color-selected);
+
     &:hover {
       background: transparent !important;
       background-color: transparent !important;
-      color: @apple-label-primary;
-    }
-
-    // Selected item: no background fill — just blue text + a blue-tinted icon.
-    &.selected,
-    &.active {
-      background: transparent !important;
-      color: @apple-blue;
-      font-weight: @font-weight-medium;
-
-      .name {
-        color: @apple-blue;
-      }
-
-      // Sidebar icons are mask images tinted via background-color.
-      .content-mask {
-        background-color: @apple-blue !important;
-      }
-
-      &:hover {
-        background: transparent !important;
-        background-color: transparent !important;
-        color: @apple-blue;
-      }
+      .sidebar-item-tier(@sidebar-item-color-selected);
     }
   }
+}
 
+// Dim nested subsection rows (emails under Inbox in All Accounts view).
+.account-sidebar .outline-view .item-children .item,
+.account-sidebar .account-sidebar-sections .item-children .item {
+  .sidebar-item-tier(@sidebar-item-color-child);
+
+  &:hover:not(.selected):not(.active) {
+    .sidebar-item-tier(@sidebar-item-color-hover);
+  }
+
+  &.selected,
+  &.active {
+    .sidebar-item-tier(@sidebar-item-color-selected);
+
+    &:hover {
+      .sidebar-item-tier(@sidebar-item-color-selected);
+    }
+  }
+}
+
+.account-sidebar .outline-view {
   .heading {
-    color: @apple-label-tertiary;
+    color: @sidebar-section-heading-color;
     font-size: @font-size-smaller;
     font-weight: @font-weight-medium;
     letter-spacing: 0.04em;

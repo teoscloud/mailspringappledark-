@@ -131,6 +131,16 @@
 @source-list-active-bg: rgba(10, 132, 255, 0.18);
 @source-list-active-color: @apple-blue;
 
+// Sidebar folder list — parent rows (Inbox, Unread, …) vs nested account rows
+@sidebar-item-color-parent: rgba(235, 235, 245, 0.78);
+@sidebar-item-color-child: rgba(235, 235, 245, 0.55);
+@sidebar-section-heading-color: @sidebar-item-color-parent;
+@sidebar-item-color-hover: @apple-label-primary;
+@sidebar-item-color-selected: #4dabff;
+
+// Legacy alias — top-level rows use the parent tier
+@sidebar-item-color: @sidebar-item-color-parent;
+
 // Thread list
 @list-bg: @apple-bg-canvas;
 @list-border: @apple-separator-opaque;
